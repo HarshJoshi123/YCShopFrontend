@@ -37,9 +37,7 @@ export default function ProductCard({ data }) {
             <Chip label={data.category} variant="outlined" />
           </Stack>
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {data.description ? data.description : ''}
-        </Typography>
+       
       </CardContent>
       <CardActions>
         <Button size="small">ADD TO CART</Button>
