@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+import MainRouter from './router';
+import Loader from './components/loading.js'
 import './App.css';
-
+import storage from "redux-persist/lib/storage"
+import { Provider } from 'react-redux'
+import { createStore,compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import reducers from './redux/reducers'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 function App() {
+  const persistConfig = {
+    key: "root",
+    storage
+  }
+  const middlewares = [];
+
+  middlewares.push(thunk);
+  const logger = createLogger({
+    collapsed: true
+  });
+
+  const persistedReducer = persistReducer(persistConfig, reducers)
+  const Store = createStore(persistedReducer,compose(applyMiddleware(...middlewares)));
+  const persistor = persistStore(Store);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={Store}>
+      <PersistGate loading={<Loader/>} persistor={persistor}>
+        <div className="App">
+          <MainRouter />
+        </div>
+      </PersistGate >
+    </Provider>
   );
 }
 
