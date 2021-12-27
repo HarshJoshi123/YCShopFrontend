@@ -44,6 +44,7 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
+    
     const userMenu = () => (
         <>
             <Tooltip title="See cart">
@@ -126,11 +127,14 @@ const Navbar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu} >
-                                    <Typography textAlign="center">{page}</Typography>
+                            
+                                <MenuItem  onClick={()=>route.products()} >
+                                    <Typography  textAlign="center">Products</Typography>
                                 </MenuItem>
-                            ))}
+                                <MenuItem  onClick={()=>route.addproduct()} >
+                                    <Typography  textAlign="center">Add Product</Typography>
+                                </MenuItem>
+                            
                             {/* <MenuItem onClick={handleCloseNavMenu} >
                                 <Typography textAlign="center"> PROFILE </Typography>
                             </MenuItem>
