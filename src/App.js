@@ -22,7 +22,7 @@ function App() {
   });
 
   const persistedReducer = persistReducer(persistConfig, reducers)
-  const Store = createStore(persistedReducer,compose(applyMiddleware(...middlewares)));
+  const Store = createStore(persistedReducer,compose(applyMiddleware(...middlewares,logger)));
   const persistor = persistStore(Store);
   return (
     <Provider store={Store}>

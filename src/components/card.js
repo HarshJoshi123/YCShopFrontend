@@ -9,9 +9,37 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import {getproductpic} from '../apis/product'
+import { useDispatch } from 'react-redux';
+import GroupedButtons from './navbar/groupedButton';
 
-export default function ProductCard({ data }) {
-  console.log(data)
+export default function ProductCard({ data}) {
+  
+  const dispatch = useDispatch();
+ 
+ const handleChange = (val)=>{
+    //1 or -1 
+    if( val==1 ){
+        dispatch({type:'ADD_CART',
+          data:{
+            name:data.name,
+            _id:data._id,
+            quantity:data.quantity || 0,
+            cost : data.cost,
+          }})
+     }
+     else{
+      dispatch({type:'SUB_CART',
+        data:{
+          name:data.name,
+          _id:data._id,
+          quantity:data.quantity || 0,
+          cost : data.cost,
+        }
+      })
+     }
+  }
+ 
+ 
   return (
     <Card sx={{ minWidth: 345,minHeight:350 }}>
       <CardMedia
@@ -40,7 +68,7 @@ export default function ProductCard({ data }) {
        
       </CardContent>
       <CardActions>
-        <Button size="small">ADD TO CART</Button>
+        <GroupedButtons qty={data.quantity } handleChange={handleChange} />
       </CardActions>
     </Card>
   );

@@ -64,12 +64,16 @@ export default function Login() {
       })
       console.log(res.data);
       dispatch({
-        type: 'LOGIN', data: {
+        type: 'LOGIN', data: { 
           name: res.data.user.name,
           token: res.data.token,
-          email: res.data.user.email
+          email: res.data.user.email,
+          _id : res.data.user._id
         }
       });
+   
+     
+
       setLoginErr({
         message: "Login Successfull",
         severity: "success"
