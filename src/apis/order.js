@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:8080'
+var URL = 'http://localhost:8080'
 if (process.env.NODE_ENV != 'development') {
     URL = 'https://ycshop.herokuapp.com'
 }
