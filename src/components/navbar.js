@@ -17,7 +17,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector, useDispatch } from 'react-redux'
 import useRoute from './useRoute';
 import GroupedButtons from './navbar/groupedButton';
-import { connection } from 'mongoose';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
