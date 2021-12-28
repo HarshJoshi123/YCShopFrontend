@@ -16,17 +16,25 @@ import useRoute from './useRoute';
 import { login } from '../apis/user.js'
 import Snack from './snackbar'
 import { useDispatch } from 'react-redux'
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/" style={{ textDecoration: 'none' }}>
-        YourCS
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <>
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="/" style={{ textDecoration: 'none' }}>
+          YourCornerShop
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        Made by Harsh Joshi <a href="https://github.com/HarshJoshi123" target="_blank">
+          <GitHubIcon />
+        </a>
+      </Typography>
+    </>
   );
 }
 
@@ -64,15 +72,15 @@ export default function Login() {
       })
       console.log(res.data);
       dispatch({
-        type: 'LOGIN', data: { 
+        type: 'LOGIN', data: {
           name: res.data.user.name,
           token: res.data.token,
           email: res.data.user.email,
-          _id : res.data.user._id
+          _id: res.data.user._id
         }
       });
-   
-     
+
+
 
       setLoginErr({
         message: "Login Successfull",

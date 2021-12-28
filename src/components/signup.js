@@ -15,17 +15,27 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useRoute from './useRoute'
 import { signup } from '../apis/user.js'
 import Snack from './snackbar'
-function Copyright(props) {
+import GitHubIcon from '@mui/icons-material/GitHub';
 
+function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <>
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="/" style={{ textDecoration: 'none' }}>
+          YourCornerShop
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        Made by Harsh Joshi : <a href="https://github.com/HarshJoshi123" target="_blank">
+          <GitHubIcon />
+        </a>
+      </Typography>
+        
+      
+    </>
   );
 }
 
@@ -37,13 +47,13 @@ export default function SignUp() {
   const [err2, setError2] = React.useState(false);
   const [errF, setErrorF] = React.useState(false);
   const [errL, setErrorL] = React.useState(false);
-  const [signupErr,setSignupErr] = React.useState(null);
+  const [signupErr, setSignupErr] = React.useState(null);
 
   const router = useRoute()
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+
     const paswd = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,30}$/;
     let errors = {
       err1: !String(data.get('email'))
@@ -59,41 +69,41 @@ export default function SignUp() {
     setError2(errors.err2);
     setErrorF(errors.errF)
     setErrorL(errors.errL)
-    
+
     errors = Object.values(errors);
-    for(let i=0;i<errors.length;i++){
-      if(errors[i]==true){
-        return ;
+    for (let i = 0; i < errors.length; i++) {
+      if (errors[i] == true) {
+        return;
       }
     }
-  
+
     let signData = {
       email: data.get('email'),
       password: data.get('password'),
       name: data.get('firstName') + ' ' + data.get('lastName'),
-      invitation: Boolean(data.get("check"))   
+      invitation: Boolean(data.get("check"))
     }
     try {
       let resp = await signup(signData)
       setSignupErr({
-        severity:"success",
-        message:"Signup successfull"
+        severity: "success",
+        message: "Signup successfull"
       });
       document.getElementById("sign").reset();
     }
     catch (err) {
       setSignupErr({
-        severity:"error",
-        message:err.response.data.err
+        severity: "error",
+        message: err.response.data.err
       });
-     // console.log(err.response.data.err);
+      // console.log(err.response.data.err);
     }
   };
   console.log(signupErr)
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-       {Boolean(signupErr) ? <Snack err={signupErr} setErr={setSignupErr} /> : ''}
+        {Boolean(signupErr) ? <Snack err={signupErr} setErr={setSignupErr} /> : ''}
         <CssBaseline />
         <Box
           sx={{
@@ -162,7 +172,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel          
+                <FormControlLabel
                   control={<Checkbox id="check" name="check" value="true" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />

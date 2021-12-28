@@ -127,22 +127,12 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar position="static" style={{ backgroundColor: 'transparent', color: 'black ' }}>
+        <AppBar position="static" title="My App" style={{ backgroundColor: 'transparent', color: 'black ' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="div"
-                        onClick={() => route.landing()}
-                        style={{ cursor: 'pointer' }}
-                        sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        YCSHOP
-                    </Typography>
 
+                    <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -153,6 +143,7 @@ const Navbar = () => {
                         >
                             <MenuIcon />
                         </IconButton>
+
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
@@ -186,7 +177,18 @@ const Navbar = () => {
                                 <Typography textAlign="center"> LOGOUT </Typography>
                             </MenuItem> */}
                         </Menu>
+
                     </Box>
+                    <Typography
+                        variant="h5"
+                         
+                        component="div"
+                        onClick={() => route.landing()}
+                        style={{ cursor: 'pointer' }}
+                        sx={{ flexGrow:{xs:1,md:0},mr:{ md:5,xs:10},ml:{xs:0} , display: { md: 'flex' } }}
+                    >
+                        YCSHOP
+                    </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
                         <Button
