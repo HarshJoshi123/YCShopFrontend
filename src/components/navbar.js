@@ -208,7 +208,7 @@ const Navbar = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         {user.token ? userMenu(user.name) : LoginMenu()}
-                        <Menu
+                        {cart.items.length > 0 && <Menu
                             sx={{ mt: '45px', px: '20px' }}
                             id="menu-appbar"
                             anchorEl={anchorElCart}
@@ -235,12 +235,12 @@ const Navbar = () => {
                                     </div>
                                 </MenuItem>
                                 ))}
-                           
+
                             <MenuItem onClick={() => { handleCloseCartMenu(); route.checkout() }} style={{ display: 'flex', justifyContent: 'center' }} >
                                 <Button align="center" component="div" textAlign="center"  > CHECKOUT    {cart.bill}{getSymbol('&#8377')} </Button>
                             </MenuItem>
                         </Menu>
-
+                        }
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
@@ -257,7 +257,7 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            
+
                             <MenuItem onClick={Logout} >
                                 <Typography textAlign="center"> Logout </Typography>
                             </MenuItem>
