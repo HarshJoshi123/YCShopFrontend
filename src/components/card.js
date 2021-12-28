@@ -9,11 +9,12 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import {getproductpic} from '../apis/product'
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import GroupedButtons from './navbar/groupedButton';
 
 export default function ProductCard({ data}) {
   
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch();
  
  const handleChange = (val)=>{
@@ -22,18 +23,20 @@ export default function ProductCard({ data}) {
         dispatch({type:'ADD_CART',
           data:{
             name:data.name,
-            _id:data._id,
+            productId:data._id,
             quantity:data.quantity || 0,
             cost : data.cost,
+            userId:user._id
           }})
      }
      else{
       dispatch({type:'SUB_CART',
         data:{
           name:data.name,
-          _id:data._id,
+          productId:data._id,
           quantity:data.quantity || 0,
           cost : data.cost,
+          userId:user._id
         }
       })
      }

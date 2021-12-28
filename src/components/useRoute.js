@@ -9,13 +9,15 @@ function useRoute() {
 	const signup = () => navigate("/signup")
 	const products = () => navigate("/products")
 	const addproduct = () => navigate("/addproduct");
+	const checkout = () => navigate("/checkout");
 	return {
 		landing,
 		login,
 		signup,
 		logout,
 		products,
-		addproduct
+		addproduct,
+		checkout
 	}
 }
 

@@ -13,10 +13,13 @@ const initialState = {
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case DISCARD: {
-            return { userId:null , items:null , bill:0 } 
+            return { userId:null , items:[] , bill:0 } 
 		}
        case LOGIN :{
           return {...state , userId : action.data._id}
+       }
+       case LOGOUT : {
+        return {userId:null,items:[],bill:0 }
        }
         case ADD_CART : {
             return addToCart(state,action) 

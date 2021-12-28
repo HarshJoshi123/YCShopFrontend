@@ -24,6 +24,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Navbar = () => {
     //consist of cart and logout c
     const dispatch = useDispatch();
+
     const route = useRoute()
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -53,11 +54,13 @@ const Navbar = () => {
 
     const userMenu = (name) => (
         <>
-            <Tooltip title="See cart">
-                <IconButton onClick={handleOpenCartMenu} sx={{ p: 0 }}>
-                    <ShoppingCartIcon />
-                </IconButton>
-            </Tooltip>
+            {cart.bill != 0 &&
+                <Tooltip title="See cart">
+                    <IconButton onClick={handleOpenCartMenu} sx={{ p: 0 }}>
+                        <ShoppingCartIcon />
+                    </IconButton>
+                </Tooltip>
+            }
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mx: 2 }}>
                     <Avatar>{name[0]}</Avatar>
@@ -66,17 +69,19 @@ const Navbar = () => {
         </>
     )
 
-    const handleChange = (val,prod) => {
+    const handleChange = (val, prod) => {
         //1 or -1 
-        console.log(val,prod)
+        console.log(val, prod)
         if (val == 1) {
+            console.log(val, prod)
             dispatch({
                 type: 'ADD_CART',
                 data: {
                     name: prod.name,
-                    _id: prod._id,
+                    productId: prod.productId,
                     quantity: prod.quantity || 0,
                     cost: prod.cost,
+                    userId: user._id
                 }
             })
         }
@@ -85,9 +90,10 @@ const Navbar = () => {
                 type: 'SUB_CART',
                 data: {
                     name: prod.name,
-                    _id: prod._id,
+                    productId: prod.productId,
                     quantity: prod.quantity || 0,
                     cost: prod.cost,
+                    userId: user._id
                 }
             })
         }
@@ -114,7 +120,12 @@ const Navbar = () => {
         });
         route.logout();
     }
- 
+    const getSymbol = (str) => {
+        const txt = document.createElement('textarea');
+        txt.innerHTML = str;
+        return txt.value;
+    };
+
     return (
         <AppBar position="static" style={{ backgroundColor: 'transparent', color: 'black ' }}>
             <Container maxWidth="xl">
@@ -198,7 +209,7 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         {user.token ? userMenu(user.name) : LoginMenu()}
                         <Menu
-                            sx={{ mt: '45px' }}
+                            sx={{ mt: '45px', px: '20px' }}
                             id="menu-appbar"
                             anchorEl={anchorElCart}
                             anchorOrigin={{
@@ -213,17 +224,21 @@ const Navbar = () => {
                             open={Boolean(anchorElCart)}
                             onClose={handleCloseCartMenu}
                         >
-                            {/* <MenuItem onClick={Logout} disabled style={{ textAlign: 'center' }} >
-                                <Typography textAlign="center"  style={{ textAlign: 'center' }}>  </Typography>
-                            </MenuItem> */}
+                            <MenuItem onClick={Logout} disabled style={{ display: 'flex', justifyContent: 'center' }} >
+                                <Typography align="center" textAlign="center"  > CART </Typography>
+                            </MenuItem>
                             {
                                 cart.items.map((item) =>
                                 (<MenuItem >
-                                    <div>
-                                        {item.name} <GroupedButtons qty={item.quantity} handleChange={(i)=>handleChange(i,item)} />
+                                    <div style={{ padding: '2px 20px' }}>
+                                        {item.name} <GroupedButtons qty={item.quantity} handleChange={(i) => handleChange(i, item)} /> {getSymbol('&#8377')} {item.quantity * item.cost}
                                     </div>
                                 </MenuItem>
                                 ))}
+                           
+                            <MenuItem onClick={() => { handleCloseCartMenu(); route.checkout() }} style={{ display: 'flex', justifyContent: 'center' }} >
+                                <Button align="center" component="div" textAlign="center"  > CHECKOUT    {cart.bill}{getSymbol('&#8377')} </Button>
+                            </MenuItem>
                         </Menu>
 
                         <Menu
@@ -242,9 +257,7 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">Profile</Typography>
-                            </MenuItem>
+                            
                             <MenuItem onClick={Logout} >
                                 <Typography textAlign="center"> Logout </Typography>
                             </MenuItem>

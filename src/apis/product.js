@@ -1,12 +1,14 @@
 import axios from 'axios'
-//const URL = 'http://localhost:8080'
-const URL = 'https://ycshop.herokuapp.com'
-
-const addproduct = (data) => {
+const URL = 'http://localhost:8080'
+if(process.env.NODE_ENV != 'development'){
+URL = 'https://ycshop.herokuapp.com'
+}
+const addproduct = (data,token) => {
     return axios.post(`${URL}/product/add`, data,
         {
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'authorization': token
             }
         }
     )

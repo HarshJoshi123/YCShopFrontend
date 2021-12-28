@@ -5,7 +5,7 @@ import useRoute from './useRoute';
 import { login } from '../apis/user.js'
 import Snack from './snackbar'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import SelectLabels from './chipSelect';
 import { addproduct } from '../apis/product'
 const theme = createTheme();
@@ -14,7 +14,7 @@ export default function AddProduct() {
     const dispatch = useDispatch();
     const router = useRoute()
     // const [err1, setError1] = React.useState(false);
-
+   const user = useSelector(state=>state.user)
     const products = [
         'Bags',
         'Shoes',
@@ -69,7 +69,7 @@ export default function AddProduct() {
                 formData.append("photo",file.file);
                 
 
-                let res = await addproduct(formData);
+                let res = await addproduct(formData,user.token);
                 setUploadErr({
                     message:"Product successfully added",
                     severity:"success"
